@@ -7,5 +7,70 @@ class HelloWorldClass
         puts "Hello #{@name}!"
     end
 end
-hello = HelloWorldClass.new("James Ontiveros")
-hello.sayHi
+#hello = HelloWorldClass.new("James Ontiveros")
+#hello.sayHi
+
+#Part2
+def isPalindrome(string)
+	string = string.downcase
+	string = string.gsub(/[^a-z]/, '')
+
+	if string == string.reverse
+	   return "This is a Palindrome"
+
+	else "This is not a Palindrome"
+	end
+	
+end
+def count_words(string)
+string.downcase!
+astring = string.split
+counthash = Hash.new(0)
+astring.each { |word| counthash[word] += 1 }
+return counthash
+
+end
+
+#part3
+
+class WrongNumberOfPlayersError <  StandardError ; end
+class NoSuchStrategyError <  StandardError ; end
+
+def rps_game_winner(game)
+
+  raise WrongNumberOfPlayersError unless game.length == 2
+  raise NoSuchStrategyError unless game[0][1].match(/[RPS]/)   && game[1][1].match(/[RPS]/)
+
+  wc = ["RS","SP","PR","RR","PP","SS"]
+  return wc.index(game[0][1] + game[1][1]) ? game[0] : game[1]
+
+end
+
+def rps_tournament_winner(game)
+  if !game[0][0].is_a?(String)
+    return rps_tournament_winner([rps_tournament_winner(game[0]),    rps_tournament_winner(game[1])])
+  else
+    return rps_game_winner(game)
+  end
+end
+
+#Part4
+
+def combine_anagrams(words)
+  words.group_by{ |word| word.chars.sort }.values
+end
+
+#p isPalindrome("A man, a plan, a canal -- Panama")
+#p count_words("A man, a plan, a canal -- Panama")
+p rps_tournament_winner([
+    [
+        [ ["Armando", "P"], ["Dave", "S"] ],
+        [ ["Richard", "R"],  ["Michael", "S"] ],
+    ],
+    [
+        [ ["Allen", "S"], ["Omer", "P"] ],
+        [ ["David E.", "R"], ["Richard X.", "P"] ]
+    ]
+])
+
+p combine_anograms(['cars', 'for', 'potatoes', 'racs', 'four', 'scar', 'creams', 'scream'])
